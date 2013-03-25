@@ -1,4 +1,7 @@
 Flexevent::Application.routes.draw do
+  resources :votes
+
+
   resources :events
 
 
