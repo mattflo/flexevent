@@ -6,10 +6,14 @@
 </p>
 
 <p>
-  <b>Vote:</b>
-  <%= @voter.vote_id %>
+  <b>Event:</b>
+  <%= @voter.event.name %>
 </p>
 
+<p>
+  <b>Vote:</b>
+  <%= @voter.vote.event_date %>
+</p>
 
 <%= link_to 'Edit', edit_voter_path(@voter) %> |
 <%= link_to 'Back', voters_path %>

@@ -10,11 +10,11 @@
       </ul>
     </div>
   <% end %>
-<p>
-  <b>Email:</b>
-  <%= @voter.email_scrubbed %>
-</p>
 
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.number_field :email %>
+  </div>
   <div class="field">
     <%= f.label :vote_id %><br />
     <%= f.number_field :vote_id %>
