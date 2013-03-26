@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130326002726) do
+ActiveRecord::Schema.define(:version => 20130326014901) do
 
   create_table "events", :force => true do |t|
     t.string   "name"
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(:version => 20130326002726) do
     t.integer  "vote_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "event_id"
+    t.string   "guid"
   end
 
   create_table "votes", :force => true do |t|
