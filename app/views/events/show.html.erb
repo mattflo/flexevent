@@ -15,6 +15,19 @@
   <%= @event.address %>
 </p>
 
+<table>
+  <tr>
+    <th>Date Option</th>
+    <th>Current Votes</th>
+  </tr>
+  <% @event.votes.each do |v| %>
+  <tr>
+  <td><%= v.event_date %></td>
+  <td><%= v.voters.count %></td>
+  </tr>
+  <% end %>
+
+</table>
 
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>
