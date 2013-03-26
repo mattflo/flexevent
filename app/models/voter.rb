@@ -4,7 +4,7 @@ class Voter < ActiveRecord::Base
   belongs_to :event
   before_save :default_values
   def default_values
-  	self.guid = SecureRandom.uuid
+  	self.guid = SecureRandom.uuid unless self.guid
   end
   def email_scrubbed
   	return "" unless self.email
