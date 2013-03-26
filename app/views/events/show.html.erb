@@ -47,7 +47,7 @@
   </tr>
   <% @event.voters.each do |v| %>
   <tr>
-  <td><%= v.email[0,2]+'***@***'+v.email[-6,6]%></td>
+  <td><%= v.email_scrubbed%></td>
   <td><%= v.vote.event_date if v.vote %></td>
   </tr>
   <% end %>

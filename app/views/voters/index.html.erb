@@ -11,7 +11,7 @@
 
 <% @voters.each do |voter| %>
   <tr>
-    <td><%= voter.email %></td>
+    <td><%= voter.email_scrubbed %></td>
     <td><%= voter.vote_id %></td>
     <td><%= link_to 'Show', voter %></td>
     <td><%= link_to 'Edit', edit_voter_path(voter) %></td>
