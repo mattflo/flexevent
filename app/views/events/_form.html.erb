@@ -24,8 +24,12 @@
     <%= f.text_field :address %>
   </div>
   <div class="field">
-    <%= f.label :event_time%><br />
-    <%= f.timestamp_field :event_time%>
+    <%= f.label :event_time %><br />
+    <%= f.time_select :event_time %>
+  </div>
+  <div class="field">
+    <%= f.label :voting_cutoff %><br />
+    <%= f.datetime_select :voting_cutoff %>
   </div>
   <div class="actions">
     <%= f.submit %>
