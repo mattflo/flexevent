@@ -15,6 +15,11 @@
   <%= @event.address %>
 </p>
 
+<p>
+  <b>Time:</b>
+  <%= @event.event_time.strftime('%l:%M %p') %>
+</p>
+
 <table>
   <tr>
     <th>Date Option</th>
