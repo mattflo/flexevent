@@ -32,7 +32,7 @@
   <td><%= v.event_date %></td>
   <td style="text-align: right"><%= v.voters.count %></td>
   <td>
-  	<%= link_to 'vote!', v %>
+  	<%= link_to "Vote", :controller => :votes, :id => v, :action => :cast, :user => params[:user] %>
   </td>
   </tr>
   <% end %>

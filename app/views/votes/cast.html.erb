@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Event date:</b>
+  <%= @vote.event_date %>
+</p>
+
+<p>
+  <b>Count:</b>
+  <%= @vote.count %>
+</p>
+
+<p>
+  <b>Event:</b>
+  <%= @vote.event_id %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @voter.email%>
+</p>
+
+<p>
+  <b>chosen date:</b>
+  <%= @voter.vote.event_date%>
+</p>
+
+<%= link_to 'back to event page', :controller => :events, :action => :show, :id => @vote.event, :user => params[:user] %>

@@ -1,4 +1,11 @@
 class VotesController < ApplicationController
+  def cast
+    @vote = Vote.find(params[:id])
+    @voter = Voter.find_by_guid(params[:user])
+    @voter.vote = @vote if @voter
+    @voter.save
+    # redirect_to @vote.event
+  end
   # GET /votes
   # GET /votes.json
   def index

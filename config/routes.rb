@@ -1,4 +1,5 @@
 Flexevent::Application.routes.draw do
+  match '/votes/cast', :controller => 'votes', :action => 'cast'
   resources :voters
 
 
