@@ -20,6 +20,11 @@
   <%= @event.event_time.strftime('%l:%M %p') %>
 </p>
 
+<p>
+  <b>Voting Cutoff:</b>
+  <%= @event.voting_cutoff_clean %>
+</p>
+
 <h3>Date Options</h3>
 <table>
   <tr>
@@ -32,7 +37,7 @@
   <td><%= v.event_date %></td>
   <td style="text-align: right"><%= v.voters.count %></td>
   <td>
-  	<%= link_to "Vote", :controller => :votes, :id => v, :action => :cast, :user => params[:user] %>
+  	<%= link_to "Vote", :controller => :votes, :id => v, :action => :cast, :voter => params[:voter] %>
   </td>
   </tr>
   <% end %>

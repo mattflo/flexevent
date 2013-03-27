@@ -1,7 +1,7 @@
 class VotesController < ApplicationController
   def cast
     @vote = Vote.find(params[:id])
-    @voter = Voter.find_by_guid(params[:user])
+    @voter = Voter.find_by_guid(params[:voter])
     @voter.vote = @vote if @voter
     @voter.save
     # redirect_to @vote.event

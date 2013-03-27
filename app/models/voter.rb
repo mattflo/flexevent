@@ -10,4 +10,7 @@ class Voter < ActiveRecord::Base
   	return "" unless self.email
   	self.email[0,2] + '***@***' + self.email[-6,6] 
   end
+  def send_invite
+    VoterMailer.invite(self).deliver
+  end
 end

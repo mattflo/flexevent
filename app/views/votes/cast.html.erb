@@ -25,4 +25,4 @@
   <%= @voter.vote.event_date%>
 </p>
 
-<%= link_to 'back to event page', :controller => :events, :action => :show, :id => @vote.event, :user => params[:user] %>
+<%= link_to 'back to event page', :controller => :events, :action => :show, :id => @vote.event, :voter => params[:voter] %>
