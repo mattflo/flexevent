@@ -7,12 +7,12 @@
 
 <p>
   <b>Event:</b>
-  <%= @voter.event.name %>
+  <%= @voter.event.name if @voter.event %>
 </p>
 
 <p>
   <b>Vote:</b>
-  <%= @voter.vote.event_date %>
+  <%= @voter.vote.event_date if @voter.vote %>
 </p>
 
 <%= link_to 'Edit', edit_voter_path(@voter) %> |
