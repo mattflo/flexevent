@@ -3,6 +3,6 @@ class Event < ActiveRecord::Base
   has_many :votes
   has_many :voters
   def voting_cutoff_clean
-  	self.voting_cutoff.getlocal.strftime('%A %B %e %l:%M%p %Y %Z')
+  	self.voting_cutoff.getlocal.strftime('%A %B %e %l:%M%p %Y')
   end
 end
