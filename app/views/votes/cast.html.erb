@@ -1,18 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <b>Event:</b>
+  <%= @vote.event.name %>
+</p>
+
+<p>
   <b>Event date:</b>
   <%= @vote.event_date %>
-</p>
-
-<p>
-  <b>Count:</b>
-  <%= @vote.count %>
-</p>
-
-<p>
-  <b>Event:</b>
-  <%= @vote.event_id %>
 </p>
 
 <p>
@@ -21,7 +16,7 @@
 </p>
 
 <p>
-  <b>chosen date:</b>
+  <b>Your preferred date:</b>
   <%= @voter.vote.event_date%>
 </p>
 
