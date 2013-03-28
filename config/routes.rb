@@ -6,6 +6,7 @@ Flexevent::Application.routes.draw do
   resources :votes
 
 
+  match 'events/dashboard', :controller => 'events', :action => 'dashboard'
   resources :events
 
 

@@ -1,6 +1,8 @@
 class EventsController < ApplicationController
   # GET /events
   # GET /events.json
+  def dashboard
+  end
   def index
     @events = Event.all
 
@@ -17,7 +19,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @event }
+      format.json { render json: {:flexevent => @event, :votes => @event.votes  }}
     end
   end
 
