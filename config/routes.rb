@@ -7,6 +7,7 @@ Flexevent::Application.routes.draw do
 
 
   match 'events/dashboard', :controller => 'events', :action => 'dashboard'
+  match 'events/dashboard2', :controller => 'events', :action => 'dashboard2'
   resources :events
 
 

@@ -8,7 +8,8 @@
 	app.controller("AppCtrl", function($scope, $http){
 	  $scope.to_vote_vm = function(vote){
 				vote.cast = function () {
-					$http.post('/votes/cast',{id:vote.id, voter:'b4fb390f-79df-44af-b798-5d885fdc3d5a'})
+					$http.post('/votes/cast',{id:vote.id, voter:_(location.search).toQueryParams()["user"]
+})
 						.success(function(){vote.count++;});
 				};
 	  };

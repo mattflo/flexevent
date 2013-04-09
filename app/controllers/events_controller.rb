@@ -1,8 +1,10 @@
 class EventsController < ApplicationController
-  # GET /events
-  # GET /events.json
   def dashboard
   end
+  def dashboardnew
+  end
+  # GET /events
+  # GET /events.json
   def index
     @events = Event.all
 
