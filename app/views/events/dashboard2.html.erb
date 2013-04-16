@@ -4,12 +4,14 @@
 <script type="text/javascript">
 	var app = angular.module("App", []);
 
-
 	app.controller("AppCtrl", function($scope, $http){
 	  $scope.to_vote_vm = function(vote){
-				vote.cast = function () {
-					$http.post('/votes/cast',{id:vote.id, voter:_(location.search).toQueryParams()["user"]
-})
+				vote.upcast = function () {
+					$http.post('/votes/upcast',{vote_id:vote.id, voter:vote.voter_id, event_id:vote.event_id })
+						.success(function(){vote.count++;});
+				};
+				vote.downcast = function () {
+					$http.post('/votes/downcast',{vote_id:vote.id, voter:vote.voter_id, event_id:vote.event_id })
 						.success(function(){vote.count++;});
 				};
 	  };
@@ -21,34 +23,38 @@
 	  		event_time: "2000-01-01T06:10:00Z",
 	  		id: 1,
 	  		location: "Improving Enterprises",
-	  		name: "Hack Club",
+	  		name: "April Hack Club",
 	  		updated_at: "2013-04-01T06:10:54Z",
 	  		voting_cutoff: "2013-04-01T06:10:00Z"
 	  	},
 	  	votes: [
-	  	{
-	  		upvotes: 8,
-	  		downvotes: 3,
-	  		created_at: "2013-04-09T00:39:27Z",
-	  		event_date: "2013-04-01",
-	  		event_id: 1,
-	  		id: 1,
-	  		updated_at: "2013-04-09T00:39:27Z"
-	  	},
-	  	{
-	  		upvotes: 4,
-	  		downvotes: 8,
-	  		created_at: "2013-04-09T00:39:47Z",
-	  		event_date: "2013-04-02",
-	  		event_id: 1,
-	  		id: 2,
-	  		updated_at: "2013-04-09T00:39:47Z"
-	  	}
+		  	{
+		  		voter_id: '28a66b92-768c-43c2-be11-9b301fe87ef8',
+		  		upvotes: 8,
+		  		downvotes: 3,
+		  		created_at: "2013-04-09T00:39:27Z",
+		  		event_date: "2013-04-01",
+		  		event_id: 1,
+		  		id: 1,
+		  		updated_at: "2013-04-09T00:39:27Z"
+		  	},
+		  	{
+		  		voter_id: '28a66b92-768c-43c2-be11-9b301fe87ef8',
+		  		upvotes: 4,
+		  		downvotes: 8,
+		  		created_at: "2013-04-09T00:39:47Z",
+		  		event_date: "2013-04-02",
+		  		event_id: 1,
+		  		id: 2,
+		  		updated_at: "2013-04-09T00:39:47Z"
+		  	}
 	  	]
 	  };
 
 	  $scope.flexevent = data.flexevent;
 	  $scope.flexevent.votes = data.votes;
+
+		_.each($scope.flexevent.votes,$scope.to_vote_vm);
 	});
 </script>
 
@@ -66,8 +72,11 @@
 	<h3>Voting Options</h3>
 	<div class="votes row span12" ng-repeat="vote in flexevent.votes">
 		<h4>{{vote.event_date}}</h4	>
-		<p> total upvotes: {{vote.upvotes}} <a href="#" class="icon-thumbs-up"></a></p>
-		<p> total downvotes: {{vote.downvotes}} <a href="#" class="icon-thumbs-down"></a></p>
+		<p> total upvotes: {{vote.upvotes}}
+			<a class="icon-thumbs-up" href="#" ng-click="vote.upcast()"></a>
+		<p> total downvotes: {{vote.downvotes}} 
+			<a class="icon-thumbs-down" href="#" ng-click="vote.downcast()"></a>
+		</p>
 	</div>
 	</div>
 </div>
