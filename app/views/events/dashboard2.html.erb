@@ -56,10 +56,10 @@
 	<div class="row span12">
 		<h3>{{flexevent.name}}</h3>
 		<ul>
-			<li>{{flexevent.location}}</li>
-			<li>{{flexevent.address}}</li>
-			<li>{{flexevent.event_time}}</li>
-			<li>{{flexevent.voting_cutoff}}</li>
+			<li>Location: {{flexevent.location}}</li>
+			<li>Address: {{flexevent.address}}</li>
+			<li>Voting Cutoff: {{flexevent.event_time | date:'MMM d yyyy h:mma'}}</li>
+			<li>Event Time: {{flexevent.voting_cutoff | date:'h:mma'}}</li>
 		</ul>
 	</div>
 	<div class="row span12">
