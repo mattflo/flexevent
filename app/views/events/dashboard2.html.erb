@@ -7,14 +7,28 @@
 	app.controller("AppCtrl", function($scope, $http){
 	  $scope.to_vote_vm = function(vote){
 				vote.upcast = function () {
-					$http.post('/votes/upcast',{vote_id:vote.id, voter:vote.voter_id, event_id:vote.event_id })
-						.success(function(){vote.count++;});
+					vote.clear_down_vote()
+					vote.upvoted = true;
+					vote.upvotes++;
 				};
 				vote.downcast = function () {
-					$http.post('/votes/downcast',{vote_id:vote.id, voter:vote.voter_id, event_id:vote.event_id })
-						.success(function(){vote.count++;});
+					vote.clear_up_vote()
+					vote.downvoted = true;
+					vote.downvotes++;
 				};
-	  };
+				vote.clear_up_vote =function(){
+					if(!vote.upvoted) return;
+					
+					vote.upvotes--;
+					vote.upvoted = false;
+				};
+				vote.clear_down_vote =function(){
+					if(!vote.downvoted) return;
+					
+					vote.downvotes--;
+					vote.downvoted = false;
+				};
+			};
 
 	  data = {
 	  	flexevent: {
@@ -32,6 +46,8 @@
 		  		voter_id: '28a66b92-768c-43c2-be11-9b301fe87ef8',
 		  		upvotes: 8,
 		  		downvotes: 3,
+		  		upvoted: false,
+		  		downvoted: false,
 		  		created_at: "2013-04-09T00:39:27Z",
 		  		event_date: "2013-04-01",
 		  		event_id: 1,
@@ -42,6 +58,8 @@
 		  		voter_id: '28a66b92-768c-43c2-be11-9b301fe87ef8',
 		  		upvotes: 4,
 		  		downvotes: 8,
+		  		upvoted: false,
+		  		downvoted: false,
 		  		created_at: "2013-04-09T00:39:47Z",
 		  		event_date: "2013-04-02",
 		  		event_id: 1,
@@ -53,7 +71,6 @@
 
 	  $scope.flexevent = data.flexevent;
 	  $scope.flexevent.votes = data.votes;
-
 		_.each($scope.flexevent.votes,$scope.to_vote_vm);
 	});
 </script>
@@ -64,18 +81,23 @@
 		<ul>
 			<li>Location: {{flexevent.location}}</li>
 			<li>Address: {{flexevent.address}}</li>
-			<li>Voting Cutoff: {{flexevent.event_time | date:'MMM d yyyy h:mma'}}</li>
-			<li>Event Time: {{flexevent.voting_cutoff | date:'h:mma'}}</li>
+			<li>Voting Cutoff: {{flexevent.event_time | date:'MMMM d yyyy h:mm a'}}</li>
+			<li>Event Time: {{flexevent.voting_cutoff | date:'h:mm a'}}</li>
 		</ul>
 	</div>
 	<div class="row span12">
 	<h3>Voting Options</h3>
 	<div class="votes row span12" ng-repeat="vote in flexevent.votes">
-		<h4>{{vote.event_date}}</h4	>
-		<p> total upvotes: {{vote.upvotes}}
-			<a class="icon-thumbs-up" href="#" ng-click="vote.upcast()"></a>
-		<p> total downvotes: {{vote.downvotes}} 
-			<a class="icon-thumbs-down" href="#" ng-click="vote.downcast()"></a>
+		<h4>{{vote.event_date | date:'MMMM d yyyy'}}</h4	>
+		<p> up votes: {{vote.upvotes}}
+			<button class="btn btn-primary" ng-disabled="vote.upvoted" ng-click="vote.upcast()">
+				up vote
+			</button>
+		</p>
+		<p> down votes: {{vote.downvotes}} 
+			<button class="btn btn-primary" ng-disabled="vote.downvoted" ng-click="vote.downcast()">
+				down vote
+			</button>
 		</p>
 	</div>
 	</div>
