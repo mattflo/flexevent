@@ -7,26 +7,26 @@
 	app.controller("AppCtrl", function($scope, $http){
 	  $scope.to_vote_vm = function(vote){
 				vote.upcast = function () {
-					vote.clear_down_vote()
-					vote.upvoted = true;
-					vote.upvotes++;
+					var delta = 1;
+					if(vote.upvoted) delta = -1;
+
+					vote.upvotes += delta;
+					vote.upvoted = !vote.upvoted;
 				};
 				vote.downcast = function () {
-					vote.clear_up_vote()
-					vote.downvoted = true;
-					vote.downvotes++;
+					var delta = 1;
+					if(vote.downvoted) delta = -1;
+
+					vote.downvotes += delta;
+					vote.downvoted = !vote.downvoted;
 				};
-				vote.clear_up_vote =function(){
-					if(!vote.upvoted) return;
-					
-					vote.upvotes--;
-					vote.upvoted = false;
+				vote.up_tip=function(){
+					if(!vote.upvoted) return "Up vote this day if it's good for you.";
+					return "Undo your up vote."
 				};
-				vote.clear_down_vote =function(){
-					if(!vote.downvoted) return;
-					
-					vote.downvotes--;
-					vote.downvoted = false;
+				vote.down_tip=function(){
+					if(!vote.downvoted) return "Down vote this day if it doesn't work for you.";
+					return "Undo your down vote."
 				};
 			};
 
@@ -87,36 +87,36 @@
 	</div>
 	<div class="row span12">
 		<h3>Voting Options</h3>
-		<div class="votes row span12" ng-repeat="vote in flexevent.votes">
-			<h4>{{vote.event_date | date:'MMMM d yyyy'}}</h4	>
-				<div class="row">
-					<div class="span2">
-						up votes:
-					</div>
-					<div class="span1">
-						{{vote.upvotes}}
-					</div>
-					<div class="span2">
-						<p>
-							<button class="btn btn-success btn-block" ng-disabled="vote.upvoted" ng-click="vote.upcast()">
-								up vote
-							</button>
-						</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="span2">
-						down votes: 
-					</div>
-					<div class="span1">
-						{{vote.downvotes}} 
-					</div>
-					<div class="span2">
-						<button class="btn btn-danger btn-block" ng-disabled="vote.downvoted" ng-click="vote.downcast()">
-							down vote
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
+		<table class="row span3 votes table" ng-repeat="vote in flexevent.votes">
+			<tr>
+				<td><h4>{{vote.event_date | date:'MMMM d yyyy'}}</h4></td>
+			</tr>
+			<tr>
+				<td>
+					up votes:
+				</td>
+				<td>
+					{{vote.upvotes}}
+				</td>
+				<td>
+					<button class="btn" ng-class="{'btn-success': vote.upvoted}" rel="tooltip" title="{{vote.up_tip()}}" ng-click="vote.upcast()">
+						&and;
+					</button>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					down votes: 
+				</td>
+				<td>
+					{{vote.downvotes}} 
+				</td>
+				<td>
+					<button class="btn" ng-class="{'btn-danger': vote.downvoted}" rel="tooltip" title="{{vote.down_tip()}}" ng-click="vote.downcast()">
+						&or;
+					</button>
+				</td>
+			</tr>
+		</table>
 	</div>
+</div>
