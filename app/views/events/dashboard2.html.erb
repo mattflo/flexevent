@@ -86,19 +86,37 @@
 		</ul>
 	</div>
 	<div class="row span12">
-	<h3>Voting Options</h3>
-	<div class="votes row span12" ng-repeat="vote in flexevent.votes">
-		<h4>{{vote.event_date | date:'MMMM d yyyy'}}</h4	>
-		<p> up votes: {{vote.upvotes}}
-			<button class="btn btn-primary" ng-disabled="vote.upvoted" ng-click="vote.upcast()">
-				up vote
-			</button>
-		</p>
-		<p> down votes: {{vote.downvotes}} 
-			<button class="btn btn-primary" ng-disabled="vote.downvoted" ng-click="vote.downcast()">
-				down vote
-			</button>
-		</p>
+		<h3>Voting Options</h3>
+		<div class="votes row span12" ng-repeat="vote in flexevent.votes">
+			<h4>{{vote.event_date | date:'MMMM d yyyy'}}</h4	>
+				<div class="row">
+					<div class="span2">
+						up votes:
+					</div>
+					<div class="span1">
+						{{vote.upvotes}}
+					</div>
+					<div class="span2">
+						<p>
+							<button class="btn btn-primary btn-block" ng-disabled="vote.upvoted" ng-click="vote.upcast()">
+								up vote
+							</button>
+						</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span2">
+						down votes: 
+					</div>
+					<div class="span1">
+						{{vote.downvotes}} 
+					</div>
+					<div class="span2">
+						<button class="btn btn-primary btn-block" ng-disabled="vote.downvoted" ng-click="vote.downcast()">
+							down vote
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	</div>
-</div>
