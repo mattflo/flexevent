@@ -6,6 +6,8 @@
 
 	app.controller("AppCtrl", function($scope, $http){
 	  $scope.to_vote_vm = function(vote){
+	  	vote["downvoted"] = false;
+	  	vote["upvoted"] = false;
 				vote.upcast = function () {
 					var delta = 1;
 					if(vote.upvoted) delta = -1;
@@ -14,18 +16,20 @@
 					vote.upvoted = !vote.upvoted;
 				};
 				vote.downcast = function () {
-					var delta = 1;
-					if(vote.downvoted) delta = -1;
+					var delta = -1;
+					if(vote.downvoted) delta = 1;
 
 					vote.downvotes += delta;
 					vote.downvoted = !vote.downvoted;
 				};
 				vote.up_tip=function(){
+					if(vote.downvoted) return "You must undo your down vote before you can up vote.";
 					if(!vote.upvoted) return "Up vote this day if it's good for you.";
 					return "Undo your up vote."
 				};
 				vote.down_tip=function(){
-					if(!vote.downvoted) return "Down vote this day if it doesn't work for you.";
+					if(vote.upvoted) return "You must undo your up vote before you can down vote.";
+					if(!vote.downvoted) return "Down vote this day if it isn't good for you.";
 					return "Undo your down vote."
 				};
 			};
@@ -45,9 +49,7 @@
 		  	{
 		  		voter_id: '28a66b92-768c-43c2-be11-9b301fe87ef8',
 		  		upvotes: 8,
-		  		downvotes: 3,
-		  		upvoted: false,
-		  		downvoted: false,
+		  		downvotes: -3,
 		  		created_at: "2013-04-09T00:39:27Z",
 		  		event_date: "2013-04-01",
 		  		event_id: 1,
@@ -57,9 +59,7 @@
 		  	{
 		  		voter_id: '28a66b92-768c-43c2-be11-9b301fe87ef8',
 		  		upvotes: 4,
-		  		downvotes: 8,
-		  		upvoted: false,
-		  		downvoted: false,
+		  		downvotes: -8,
 		  		created_at: "2013-04-09T00:39:47Z",
 		  		event_date: "2013-04-02",
 		  		event_id: 1,
@@ -99,7 +99,14 @@
 					{{vote.upvotes}}
 				</td>
 				<td>
-					<button class="btn" ng-class="{'btn-success': vote.upvoted}" rel="tooltip" title="{{vote.up_tip()}}" ng-click="vote.upcast()">
+					<button class="btn btn-primary" 
+									ng-mouseenter="uphovered = true" 
+									ng-mouseleave="uphovered = false" 
+									ng-class="{'btn-success': (!vote.upvoted && uphovered) || (vote.upvoted && !uphovered)}" 
+									ng-disabled="vote.downvoted"
+									rel="tooltip" 
+									title="{{vote.up_tip()}}" 
+									ng-click="vote.upcast()">
 						&and;
 					</button>
 				</td>
@@ -112,7 +119,14 @@
 					{{vote.downvotes}} 
 				</td>
 				<td>
-					<button class="btn" ng-class="{'btn-danger': vote.downvoted}" rel="tooltip" title="{{vote.down_tip()}}" ng-click="vote.downcast()">
+					<button class="btn btn-primary" 
+									ng-mouseenter="downhovered = true" 
+									ng-mouseleave="downhovered = false" 
+									ng-class="{'btn-danger': (!vote.downvoted && downhovered) || (vote.downvoted && !downhovered)}" 
+									ng-disabled="vote.upvoted"
+									rel="tooltip" 
+									title="{{vote.down_tip()}}" 
+									ng-click="vote.downcast()">
 						&or;
 					</button>
 				</td>
