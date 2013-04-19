@@ -47,9 +47,9 @@
 	  	},
 	  	votes: [
 		  	{
-		  		voter_id: '28a66b92-768c-43c2-be11-9b301fe87ef8',
-		  		upvotes: 8,
-		  		downvotes: -3,
+		  		voter_id: '28a66b92-768c-43c2-be11-9b301fe87ef8', 
+		  		upvotes: 8, 
+		  		downvotes: -3, 
 		  		created_at: "2013-04-09T00:39:27Z",
 		  		event_date: "2013-04-01",
 		  		event_id: 1,
@@ -72,6 +72,12 @@
 	  $scope.flexevent = data.flexevent;
 	  $scope.flexevent.votes = data.votes;
 		_.each($scope.flexevent.votes,$scope.to_vote_vm);
+
+		 $(document).ready(function () {
+                $("button").tooltip({
+                  'placement': 'right'
+                });
+              });
 	});
 </script>
 
@@ -100,6 +106,7 @@
 				</td>
 				<td>
 					<button class="btn btn-primary" 
+									data-toggle="tooltip"
 									ng-mouseenter="uphovered = true" 
 									ng-mouseleave="uphovered = false" 
 									ng-class="{'btn-success': (!vote.upvoted && uphovered) || (vote.upvoted && !uphovered)}" 
