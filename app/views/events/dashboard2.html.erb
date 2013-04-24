@@ -74,9 +74,7 @@
 		_.each($scope.flexevent.votes,$scope.to_vote_vm);
 
 		 $(document).ready(function () {
-                $("button").tooltip({
-                  'placement': 'right'
-                });
+                $("button").tooltip({'placement': 'right'});
               });
 	});
 </script>
@@ -105,14 +103,15 @@
 					{{vote.upvotes}}
 				</td>
 				<td>
-					<button class="btn btn-primary" 
+					<button class="btn" 
 									data-toggle="tooltip"
 									ng-mouseenter="uphovered = true" 
 									ng-mouseleave="uphovered = false" 
 									ng-class="{'btn-success': (!vote.upvoted && uphovered) || (vote.upvoted && !uphovered)}" 
 									ng-disabled="vote.downvoted"
 									rel="tooltip" 
-									title="{{vote.up_tip()}}" 
+									title="" 
+									data-original-title="{{vote.up_tip()}}" 
 									ng-click="vote.upcast()">
 						&and;
 					</button>
@@ -126,13 +125,14 @@
 					{{vote.downvotes}} 
 				</td>
 				<td>
-					<button class="btn btn-primary" 
+					<button class="btn" 
 									ng-mouseenter="downhovered = true" 
 									ng-mouseleave="downhovered = false" 
 									ng-class="{'btn-danger': (!vote.downvoted && downhovered) || (vote.downvoted && !downhovered)}" 
 									ng-disabled="vote.upvoted"
 									rel="tooltip" 
-									title="{{vote.down_tip()}}" 
+									title="" 
+									data-original-title="{{vote.down_tip()}}" 
 									ng-click="vote.downcast()">
 						&or;
 					</button>
