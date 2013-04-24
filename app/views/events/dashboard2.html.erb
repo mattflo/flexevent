@@ -8,6 +8,16 @@
 	  $scope.to_vote_vm = function(vote){
 	  	vote["downvoted"] = false;
 	  	vote["upvoted"] = false;
+		  	vote.upvote_symbol = function()
+		  	{
+		  		if(!vote.upvoted) return "^";
+		  		return "X";
+		  	};
+		  	vote.downvote_symbol = function()
+		  	{
+		  		if(!vote.downvoted) return "\u2228";
+		  		return "X";
+		  	};
 				vote.upcast = function () {
 					if(vote.downvoted) return;
 					var delta = 1;
@@ -114,7 +124,7 @@
 									title="" 
 									data-original-title="{{vote.up_tip()}}" 
 									ng-click="vote.upcast()">
-								&and;	
+									{{vote.upvote_symbol()}}
 					</button>
 				</td>
 			</tr>
@@ -134,7 +144,7 @@
 									title="" 
 									data-original-title="{{vote.down_tip()}}" 
 									ng-click="vote.downcast()">
-						&or;
+									{{vote.downvote_symbol()}}
 					</button>
 				</td>
 			</tr>
