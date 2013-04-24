@@ -9,6 +9,7 @@
 	  	vote["downvoted"] = false;
 	  	vote["upvoted"] = false;
 				vote.upcast = function () {
+					if(vote.downvoted) return;
 					var delta = 1;
 					if(vote.upvoted) delta = -1;
 
@@ -16,6 +17,7 @@
 					vote.upvoted = !vote.upvoted;
 				};
 				vote.downcast = function () {
+					if(vote.upvoted) return;
 					var delta = -1;
 					if(vote.downvoted) delta = 1;
 
@@ -107,8 +109,7 @@
 									data-toggle="tooltip"
 									ng-mouseenter="uphovered = true" 
 									ng-mouseleave="uphovered = false" 
-									ng-class="{'btn-success': (!vote.upvoted && uphovered) || (vote.upvoted && !uphovered)}" 
-									ng-disabled="vote.downvoted"
+									ng-class="{'disabled': vote.downvoted,'btn-success': !vote.downvoted && (!vote.upvoted && uphovered) || (vote.upvoted && !uphovered)}" 
 									rel="tooltip" 
 									title="" 
 									data-original-title="{{vote.up_tip()}}" 
@@ -128,8 +129,7 @@
 					<button class="btn" 
 									ng-mouseenter="downhovered = true" 
 									ng-mouseleave="downhovered = false" 
-									ng-class="{'btn-danger': (!vote.downvoted && downhovered) || (vote.downvoted && !downhovered)}" 
-									ng-disabled="vote.upvoted"
+									ng-class="{'disabled': vote.upvoted, 'btn-danger': !vote.upvoted && (!vote.downvoted && downhovered) || (vote.downvoted && !downhovered)}" 
 									rel="tooltip" 
 									title="" 
 									data-original-title="{{vote.down_tip()}}" 
