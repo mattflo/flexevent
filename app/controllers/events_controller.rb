@@ -1,38 +1,4 @@
 class EventsController < ApplicationController
-  def seed
-    event_name = 'Happy Hour Seed'
-    event = Event.find_by_name event_name
-
-    if event
-      event.votes.each do |v| v.delete 
-        v.ballots.each { |b| b.delete }
-        v.delete
-      end
-      event.voters.each { |v| v.delete }
-      event.delete
-    end
-
-    event = Event.create :name => event_name , :event_time => '6:00PM', :location => 'Improving Enterprises', :address => '1234 main st', :voting_cutoff => '2014/12/12' 
-    event.save
-
-    vote = Vote.create :event_date => "1/1/2014"
-    vote.event = event
-    vote.save
-
-    voter = Voter.create :email => 'yeah@whatever.com'
-    voter.event = event
-    voter.save
-
-    ballot = Ballot.create :direction => 1
-    ballot.vote = vote
-    ballot.voter = voter
-    ballot.save
-    render json: { :flexevent => event, :votes => event.votes}
-  end
-  def dashboard
-  end
-  def dashboardnew
-  end
   # GET /events
   # GET /events.json
   def index
@@ -51,7 +17,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: {:flexevent => @event, :votes => @event.votes  }}
+      format.json { render json: { :flexevent => @event, :votes => @event.votes.as_json(:methods => [:upvotes, :downvotes])}}
     end
   end
 
@@ -113,5 +79,71 @@ class EventsController < ApplicationController
       format.html { redirect_to events_url }
       format.json { head :no_content }
     end
+  end
+  def seed
+    event_name = 'Happy Hour Seed'
+    event = Event.find_by_name event_name
+
+    if event
+      event.votes.each do |v| v.delete 
+        v.ballots.each { |b| b.delete }
+        v.delete
+      end
+      event.voters.each { |v| v.delete }
+      event.delete
+    end
+
+    event = Event.create :name => event_name , :event_time => '6:00PM', :location => 'Improving Enterprises', :address => '1234 main st', :voting_cutoff => '2014/12/12' 
+    event.save
+
+    vote1 = Vote.create :event_date => "1/1/2014"
+    vote1.event = event
+    vote1.save
+
+    vote2 = Vote.create :event_date => "1/2/2014"
+    vote2.event = event
+    vote2.save
+
+    (1..8).each do |i|
+      voter = Voter.create :email => "up#{i}@whatever.com"
+      voter.event = event
+      voter.save
+      ballot = Ballot.create :direction => 1
+      ballot.vote = vote1
+      ballot.voter = voter
+      ballot.save
+    end
+
+    (1..3).each do |i|
+      voter = Voter.create :email => "down#{i}@whatever.com"
+      voter.event = event
+      voter.save
+      ballot = Ballot.create :direction => -1
+      ballot.vote = vote1
+      ballot.voter = voter
+      ballot.save
+    end
+
+    (1..4).each do |i|
+      voter = Voter.create :email => "up#{i}@whatever.com"
+      voter.event = event
+      voter.save
+      ballot = Ballot.create :direction => 1
+      ballot.vote = vote2
+      ballot.voter = voter
+      ballot.save
+    end
+
+    (1..8).each do |i|
+      voter = Voter.create :email => "down#{i}@whatever.com"
+      voter.event = event
+      voter.save
+      ballot = Ballot.create :direction => -1
+      ballot.vote = vote2
+      ballot.voter = voter
+      ballot.save
+    end
+
+    render json: { :flexevent => event, :votes => event.votes.as_json(:methods => [:upvotes, :downvotes])}
   end
 end
