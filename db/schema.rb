@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130326014901) do
+ActiveRecord::Schema.define(:version => 20130501020048) do
+
+  create_table "ballots", :force => true do |t|
+    t.integer  "direction"
+    t.integer  "voter_id"
+    t.integer  "vote_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "ballots", ["vote_id"], :name => "index_ballots_on_vote_id"
+  add_index "ballots", ["voter_id"], :name => "index_ballots_on_voter_id"
 
   create_table "events", :force => true do |t|
     t.string   "name"
