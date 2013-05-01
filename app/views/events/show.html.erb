@@ -1,62 +1,122 @@
-<p id="notice"><%= notice %></p>
+<script type="text/javascript">
+  var app = angular.module("App", []);
 
-<p>
-  <b>Name:</b>
-  <%= @event.name %>
-</p>
+  app.controller("AppCtrl", function($scope, $http){
+    $scope.to_vote_vm = function(vote){
+      vote["downvoted"] = false;
+      vote["upvoted"] = false;
+        vote.upvote_symbol = function() {
+          if(!vote.upvoted) return "^";
+          return "X";
+        };
+        vote.downvote_symbol = function() {
+          if(!vote.downvoted) return "\u2228";
+          return "X";
+        };
+        vote.clear_upvote = function(){
+          vote.upvoted = false;
+          vote.upvotes--;
+        };
+        vote.clear_downvote = function(){
+          vote.downvoted = false;
+          vote.downvotes++;
+        };
+        vote.upcast = function () {
+          if(vote.downvoted) { this.clear_downvote(); }
+          var delta = 1;
+          if(vote.upvoted) delta = -1;
 
-<p>
-  <b>Location:</b>
-  <%= @event.location %>
-</p>
+          vote.upvotes += delta;
+          vote.upvoted = !vote.upvoted;
+        };
+        vote.downcast = function () {
+          if(vote.upvoted) { this.clear_upvote(); }
+          var delta = -1;
+          if(vote.downvoted) delta = 1;
 
-<p>
-  <b>Address:</b>
-  <%= @event.address %>
-</p>
+          vote.downvotes += delta;
+          vote.downvoted = !vote.downvoted;
+        };
+        vote.up_tip=function(){
+          if(!vote.upvoted) return "Up vote this day if it's good for you.";
+          return "Whoops! Undo your up vote.";
+        };
+        vote.down_tip=function(){
+          if(!vote.downvoted) return "Down vote this day if it isn't good for you.";
+          return "Whoops! Undo your down vote.";
+        };
+      };
 
-<p>
-  <b>Time:</b>
-  <%= @event.event_time.strftime('%l:%M %p') %>
-</p>
+    $http({method: 'GET', url: '<%= request.url %>'})
+    .success(function(data){
+      $scope.flexevent = data.flexevent;
+      $scope.flexevent.votes = data.votes;
+      _.each($scope.flexevent.votes,$scope.to_vote_vm);
+    });
 
-<p>
-  <b>Voting Cutoff:</b>
-  <%= @event.voting_cutoff_clean %>
-</p>
+     $(document).ready(function () {
+                $("button").tooltip({'placement': 'right'});
+              });
+  });
+</script>
 
-<h3>Date Options</h3>
-<table>
-  <tr>
-    <th>Date</th>
-    <th>Current Votes</th>
-    <th></th>
-  </tr>
-  <% @event.votes.each do |v| %>
-  <tr>
-  <td><%= v.event_date %></td>
-  <td style="text-align: right"><%= v.voters.count %></td>
-  <td>
-  	<%= link_to "Vote", :controller => :votes, :id => v, :action => :cast, :voter => params[:voter] %>
-  </td>
-  </tr>
-  <% end %>
-
-</table>
-
-<h3>Voters</h3>
-<table>
-  <tr>
-    <th>Email</th>
-    <th>Date Chosen</th>
-  </tr>
-  <% @event.voters.each do |v| %>
-  <tr>
-  <td><%= v.email_scrubbed%></td>
-  <td><%= v.vote.event_date if v.vote %></td>
-  </tr>
-  <% end %>
-
-</table>
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+<div id="main" ng-app="App" ng-controller="AppCtrl">
+  <div class="row span12">
+    <h3>{{flexevent.name}}</h3>
+    <ul>
+      <li>Location: {{flexevent.location}}</li>
+      <li>Address: {{flexevent.address}}</li>
+      <li>Voting Cutoff: {{flexevent.event_time | date:'MMMM d yyyy h:mm a'}}</li>
+      <li>Event Time: {{flexevent.voting_cutoff | date:'h:mm a'}}</li>
+    </ul>
+  </div>
+  <div class="row span12">
+    <h3>Voting Options</h3>
+    <table class="row span3 votes table" ng-repeat="vote in flexevent.votes">
+      <tr>
+        <td><h5>{{vote.event_date | date:'MMMM d yyyy'}}</h5></td>
+      </tr>
+      <tr ng-class="{'success': vote.upvoted}">
+        <td>
+          up votes:
+        </td>
+        <td>
+          {{vote.upvotes}}
+        </td>
+        <td>
+          <button class="btn" 
+                  data-toggle="tooltip"
+                  ng-mouseenter="uphovered = true" 
+                  ng-mouseleave="uphovered = false" 
+                  ng-class="{'btn-success': !vote.downvoted && (!vote.upvoted && uphovered)}" 
+                  rel="tooltip" 
+                  title="" 
+                  data-original-title="{{vote.up_tip()}}" 
+                  ng-click="vote.upcast()">
+                  {{vote.upvote_symbol()}}
+          </button>
+        </td>
+      </tr>
+      <tr ng-class="{'error': vote.downvoted}">
+        <td>
+          down votes: 
+        </td>
+        <td>
+          {{vote.downvotes}} 
+        </td>
+        <td>
+          <button class="btn" 
+                  ng-mouseenter="downhovered = true" 
+                  ng-mouseleave="downhovered = false" 
+                  ng-class="{'btn-danger': !vote.upvoted && (!vote.downvoted && downhovered)}" 
+                  rel="tooltip" 
+                  title="" 
+                  data-original-title="{{vote.down_tip()}}" 
+                  ng-click="vote.downcast()">
+                  {{vote.downvote_symbol()}}
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
