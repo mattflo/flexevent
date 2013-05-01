@@ -1,4 +1,34 @@
 class EventsController < ApplicationController
+  def seed
+    event_name = 'Happy Hour Seed'
+    event = Event.find_by_name event_name
+
+    if event
+      event.votes.each do |v| v.delete 
+        v.ballots.each { |b| b.delete }
+        v.delete
+      end
+      event.voters.each { |v| v.delete }
+      event.delete
+    end
+
+    event = Event.create :name => event_name , :event_time => '6:00PM', :location => 'Improving Enterprises', :address => '1234 main st', :voting_cutoff => '2014/12/12' 
+    event.save
+
+    vote = Vote.create :event_date => "1/1/2014"
+    vote.event = event
+    vote.save
+
+    voter = Voter.create :email => 'yeah@whatever.com'
+    voter.event = event
+    voter.save
+
+    ballot = Ballot.create :direction => 1
+    ballot.vote = vote
+    ballot.voter = voter
+    ballot.save
+    render json: { :flexevent => event, :votes => event.votes}
+  end
   def dashboard
   end
   def dashboardnew
