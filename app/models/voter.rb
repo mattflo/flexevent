@@ -1,6 +1,7 @@
 class Voter < ActiveRecord::Base
   attr_accessible :email, :vote_id, :event_id
   belongs_to :vote
+  has_many :ballots
   belongs_to :event
   before_save :default_values
   def default_values
@@ -12,5 +13,9 @@ class Voter < ActiveRecord::Base
   end
   def send_invite
     VoterMailer.invite(self).deliver
+  end
+  def votes_json
+    event.votes.each {|v| v.contextify self}
+    event.votes.as_json(:methods => [:upvotes, :downvotes, :upvoted, :downvoted])
   end
 end

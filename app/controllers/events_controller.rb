@@ -10,14 +10,26 @@ class EventsController < ApplicationController
     end
   end
 
+  def cast
+    set_voter_cookie 
+    voter = Voter.find_by_guid params[:voter]
+    redirect_to voter.event
+  end
+
+  def set_voter_cookie
+    cookies.permanent[:_voter_id] = params[:voter] 
+  end
+
   # GET /events/1
   # GET /events/1.json
   def show
     @event = Event.find(params[:id])
 
+    voter = Voter.find_by_guid cookies[:_voter_id]
+
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: { :flexevent => @event, :votes => @event.votes.as_json(:methods => [:upvotes, :downvotes])}}
+      format.json { render json: { :voter => cookies[:_voter_id], :flexevent => voter.event, :votes => voter.votes_json}}
     end
   end
 

@@ -3,8 +3,6 @@
 
   app.controller("AppCtrl", function($scope, $http){
     $scope.to_vote_vm = function(vote){
-      vote["downvoted"] = false;
-      vote["upvoted"] = false;
         vote.upvote_symbol = function() {
           if(!vote.upvoted) return "^";
           return "X";
@@ -37,11 +35,11 @@
           vote.downvotes += delta;
           vote.downvoted = !vote.downvoted;
         };
-        vote.up_tip=function(){
+        vote.up_tip = function(){
           if(!vote.upvoted) return "Up vote this day if it's good for you.";
           return "Whoops! Undo your up vote.";
         };
-        vote.down_tip=function(){
+        vote.down_tip = function(){
           if(!vote.downvoted) return "Down vote this day if it isn't good for you.";
           return "Whoops! Undo your down vote.";
         };
@@ -53,7 +51,6 @@
       $scope.flexevent.votes = data.votes;
       _.each($scope.flexevent.votes,$scope.to_vote_vm);
     });
-
      $(document).ready(function () {
                 $("button").tooltip({'placement': 'right'});
               });
