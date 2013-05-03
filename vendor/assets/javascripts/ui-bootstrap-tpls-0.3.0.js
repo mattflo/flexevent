@@ -1439,16 +1439,16 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position' ] )
           });
 
           attrs.$observe( prefix+'Trigger', function ( val ) {
-            element.unbind( triggers.show );
-            element.unbind( triggers.hide );
+              element.off(triggers.show, showTooltipBind);
+              element.off(triggers.hide, hideTooltipBind);
 
             triggers = setTriggers( val );
 
             if ( triggers.show === triggers.hide ) {
-              element.bind( triggers.show, toggleTooltipBind );
+              element.on(triggers.show, toggleTooltipBind);
             } else {
-              element.bind( triggers.show, showTooltipBind );
-              element.bind( triggers.hide, hideTooltipBind );
+              element.on(triggers.show, showTooltipBind);
+              element.on(triggers.hide, hideTooltipBind);
             }
           });
         }
