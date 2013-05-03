@@ -81,7 +81,7 @@
           <button class="btn" 
                   ng-mouseenter="uphovered = true" 
                   ng-mouseleave="uphovered = false" 
-                  ng-class="{'btn-success': !vote.downvoted && (!vote.upvoted && uphovered)}" 
+                  ng-class="{'btn-success': !vote.upvoted && uphovered}" 
                   tooltip-placement="right"
                   tooltip="{{vote.up_tip()}}" 
                   ng-click="vote.upcast()">
@@ -100,7 +100,7 @@
           <button class="btn" 
                   ng-mouseenter="downhovered = true" 
                   ng-mouseleave="downhovered = false" 
-                  ng-class="{'btn-danger': !vote.upvoted && (!vote.downvoted && downhovered)}" 
+                  ng-class="{'btn-danger': !vote.downvoted && downhovered}" 
                   tooltip-placement="right"
                   tooltip="{{vote.down_tip()}}" 
                   ng-click="vote.downcast()">
