@@ -1,5 +1,5 @@
 <script type="text/javascript">
-  var app = angular.module("App", []);
+  var app = angular.module("App", ['ui.bootstrap']);
 
   app.controller("AppCtrl", function($scope, $http){
     $scope.to_vote_vm = function(vote){
@@ -51,9 +51,6 @@
       $scope.flexevent.votes = data.votes;
       _.each($scope.flexevent.votes,$scope.to_vote_vm);
     });
-     $(document).ready(function () {
-                $("button").tooltip({'placement': 'right'});
-              });
   });
 </script>
 
@@ -82,13 +79,11 @@
         </td>
         <td>
           <button class="btn" 
-                  data-toggle="tooltip"
                   ng-mouseenter="uphovered = true" 
                   ng-mouseleave="uphovered = false" 
                   ng-class="{'btn-success': !vote.downvoted && (!vote.upvoted && uphovered)}" 
-                  rel="tooltip" 
-                  title="" 
-                  data-original-title="{{vote.up_tip()}}" 
+                  tooltip-placement="right"
+                  tooltip="{{vote.up_tip()}}" 
                   ng-click="vote.upcast()">
                   {{vote.upvote_symbol()}}
           </button>
@@ -106,9 +101,8 @@
                   ng-mouseenter="downhovered = true" 
                   ng-mouseleave="downhovered = false" 
                   ng-class="{'btn-danger': !vote.upvoted && (!vote.downvoted && downhovered)}" 
-                  rel="tooltip" 
-                  title="" 
-                  data-original-title="{{vote.down_tip()}}" 
+                  tooltip-placement="right"
+                  tooltip="{{vote.down_tip()}}" 
                   ng-click="vote.downcast()">
                   {{vote.downvote_symbol()}}
           </button>
