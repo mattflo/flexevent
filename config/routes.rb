@@ -1,13 +1,11 @@
 Flexevent::Application.routes.draw do
-  match '/votes/cast', :controller => 'votes', :action => 'cast'
-  resources :voters
-
-  resources :votes
+  # resources :voters
+  # resources :votes
+  resources :events
 
   match 'events/dashboard2', :controller => 'events', :action => 'dashboard2'
   match 'events/seed', :controller => 'events', :action => 'seed'
-  match 'cast/:voter' => 'events#cast'
-  resources :events
+  match 'events/cast/:voter' => 'events#cast'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

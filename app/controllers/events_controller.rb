@@ -117,7 +117,7 @@ class EventsController < ApplicationController
     vote2.save
 
     (1..8).each do |i|
-      voter = Voter.create :email => "up#{i}@whatever.com"
+      voter = Voter.create :email => "up#{i}@mattflo.com"
       voter.event = event
       voter.save
       ballot = Ballot.create :direction => 1

@@ -11,6 +11,6 @@
     <%= "Hurry! Voting ends #{@voter.event.voting_cutoff_clean}." %>
     </p>
     <p>
-    Click <%= link_to "here", :only_path => false, :controller => :events, :action => :show, :id => @voter.event, :voter => @voter.guid %> for more details and to cast your vote!
+    Click <%= link_to "here", :only_path => false, :controller => :events, :action => :cast, :voter => @voter.guid %> for more details and to cast your vote!
   </body>
 </html>
