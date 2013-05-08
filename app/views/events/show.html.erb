@@ -68,7 +68,7 @@
     <h3>Voting Options</h3>
     <table class="row span3 votes table" ng-repeat="vote in flexevent.votes">
       <tr>
-        <td><h5>{{vote.event_date | date:'MMMM d yyyy'}}</h5></td>
+        <td><h6>{{vote.event_date | date:'EEEE, MMM d'}}</h6></td>
       </tr>
       <tr ng-class="{'success': vote.upvoted}">
         <td>
