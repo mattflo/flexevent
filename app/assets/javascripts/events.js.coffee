@@ -49,3 +49,5 @@ app.controller "AppCtrl", ($scope, $http) ->
     $scope.flexevent = data.flexevent
     $scope.flexevent.votes = data.votes
     _.each $scope.flexevent.votes, $scope.to_vote_vm
+
+app.controller.$inject = ['$scope', '$http']
