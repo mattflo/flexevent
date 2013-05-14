@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 app = angular.module("App", [ "ui.bootstrap" ])
-app.controller "AppCtrl", ($scope, $http) ->
+app.controller "AppCtrl", ['$scope', '$http', ($scope, $http) ->
   $scope.to_vote_vm = (vote) ->
     vote.upvote_symbol = ->
       return "^"  unless vote.upvoted
@@ -49,5 +49,4 @@ app.controller "AppCtrl", ($scope, $http) ->
     $scope.flexevent = data.flexevent
     $scope.flexevent.votes = data.votes
     _.each $scope.flexevent.votes, $scope.to_vote_vm
-
-app.inject = ['$scope', '$http']
+]
