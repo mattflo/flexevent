@@ -16,6 +16,6 @@ class Voter < ActiveRecord::Base
   end
   def votes_json
     event.votes.each {|v| v.contextify self}
-    event.votes.as_json(:methods => [:upvotes, :downvotes, :upvoted, :downvoted])
+    event.votes.as_json(:methods => [:upvotes, :downvotes, :upvoted, :downvoted], :voter => self.guid)
   end
 end

@@ -17,6 +17,7 @@ class Vote < ActiveRecord::Base
     h = super(options)
     h[:upvoted]   = @upvoted
     h[:downvoted] = @downvoted
+    h[:voter] = options[:voter]
     h
   end
 end
