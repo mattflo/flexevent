@@ -33,6 +33,7 @@ app.controller "AppCtrl", ['$scope', '$http', ($scope, $http) ->
       delta = 1  if vote.downvoted
       vote.downvotes += delta
       vote.downvoted = not vote.downvoted
+      console.log {direction: delta, vote_id: vote.id, voter_id: $scope.voter.id}
 
     vote.up_tip = ->
       return "Up vote this day if it's good for you."  unless vote.upvoted
@@ -48,5 +49,5 @@ app.controller "AppCtrl", ['$scope', '$http', ($scope, $http) ->
   ).success (data) ->
     $scope.flexevent = data.flexevent
     $scope.flexevent.votes = data.votes
-    _.each $scope.flexevent.votes, $scope.to_vote_vm
+    $scope.to_vote_vm v for v in $scope.flexevent.votes
 ]
