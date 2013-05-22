@@ -25,12 +25,16 @@
           <button class="btn" 
                   ng-mouseenter="uphovered = true" 
                   ng-mouseleave="uphovered = false" 
-                  ng-class="{'btn-success': !vote.upvoted && uphovered}" 
+                  ng-class="{'btn-success': uphovered}" 
                   tooltip-placement="right"
-                  tooltip="{{vote.up_tip()}}" 
-                  ng-click="vote.upcast()">
-                  {{vote.upvote_symbol()}}
-          </button>
+                  ng-show="!vote.upvoted"
+                  tooltip="Up vote this day if it's good for you." 
+                  ng-click="vote.cast(1)">^</button>
+          <button class="btn" 
+                  tooltip-placement="right"
+                  tooltip="Whoops! Undo your up vote."
+                  ng-show="vote.upvoted"
+                  ng-click="vote.clear_upvote()">X</button>
         </td>
       </tr>
       <tr ng-class="{'error': vote.downvoted}">
@@ -44,12 +48,16 @@
           <button class="btn" 
                   ng-mouseenter="downhovered = true" 
                   ng-mouseleave="downhovered = false" 
-                  ng-class="{'btn-danger': !vote.downvoted && downhovered}" 
+                  ng-class="{'btn-danger': downhovered}" 
                   tooltip-placement="right"
-                  tooltip="{{vote.down_tip()}}" 
-                  ng-click="vote.downcast()">
-                  {{vote.downvote_symbol()}}
-          </button>
+                  ng-show="!vote.downvoted"
+                  tooltip="Down vote this day if it isn't good for you." 
+                  ng-click="vote.cast(-1)">v</button>
+          <button class="btn" 
+                  tooltip-placement="right"
+                  tooltip="Whoops! Undo your down vote."
+                  ng-show="vote.downvoted"
+                  ng-click="vote.clear_downvote()">X</button>
         </td>
       </tr>
     </table>
