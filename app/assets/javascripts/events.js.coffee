@@ -7,12 +7,12 @@ app.controller "AppCtrl", ['$scope', '$http', ($scope, $http) ->
 		vote.clear_upvote = (skip) ->
 			vote.upvoted = false
 			vote.upvotes--
-			console.log {direction:0, vote_id: vote.id, voter_guid: vote.voter} unless skip?
+			console.log {direction:0, vote_id: vote.id, voter_guid: vote.ballot.voter} unless skip?
 
 		vote.clear_downvote = (skip) ->
 			vote.downvoted = false
 			vote.downvotes++
-			console.log {direction:0, vote_id: vote.id, voter_guid: vote.voter} unless skip?
+			console.log {direction:0, vote_id: vote.id, voter_guid: vote.ballot.voter} unless skip?
 
 		vote.cast = (delta) ->
 			if delta is 1
@@ -23,7 +23,7 @@ app.controller "AppCtrl", ['$scope', '$http', ($scope, $http) ->
 				@clear_upvote('skip') if vote.upvoted
 				vote.downvotes += delta
 				vote.downvoted = not vote.downvoted
-			console.log {direction: delta, vote_id: vote.id, voter_guid: vote.voter}
+			console.log {direction: delta, vote_id: vote.id, voter_guid: vote.ballot.voter}
 
 	$http(
 		method: "GET"

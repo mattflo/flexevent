@@ -5,4 +5,8 @@ class Event < ActiveRecord::Base
   def voting_cutoff_clean
   	self.voting_cutoff.getlocal.strftime('%A %B %e %l:%M%p %Y')
   end
+  def as_json options ={}
+    options[:except] = [:created_at, :updated_at]
+    super options
+  end
 end
