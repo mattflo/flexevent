@@ -4,23 +4,23 @@
 app = angular.module("App", [ "ui.bootstrap" ])
 app.controller "AppCtrl", ['$scope', '$http', ($scope, $http) ->
 	$scope.to_vote_vm = (vote) ->
-		vote.clear_upvote = ->
+		vote.clear_upvote = (skip) ->
 			vote.upvoted = false
 			vote.upvotes--
-			console.log {direction:0, vote_id: vote.id, voter_guid: vote.voter}
+			console.log {direction:0, vote_id: vote.id, voter_guid: vote.voter} unless skip?
 
-		vote.clear_downvote = ->
+		vote.clear_downvote = (skip) ->
 			vote.downvoted = false
 			vote.downvotes++
-			console.log {direction:0, vote_id: vote.id, voter_guid: vote.voter}
+			console.log {direction:0, vote_id: vote.id, voter_guid: vote.voter} unless skip?
 
 		vote.cast = (delta) ->
-			if delta == 1
-				@clear_downvote() if vote.downvoted
+			if delta is 1
+				@clear_downvote('skip') if vote.downvoted
 				vote.upvotes += delta
 				vote.upvoted = not vote.upvoted
 			else
-				@clear_upvote() if vote.upvoted
+				@clear_upvote('skip') if vote.upvoted
 				vote.downvotes += delta
 				vote.downvoted = not vote.downvoted
 			console.log {direction: delta, vote_id: vote.id, voter_guid: vote.voter}
