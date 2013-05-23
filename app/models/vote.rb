@@ -10,6 +10,7 @@ class Vote < ActiveRecord::Base
   	ballots.select{|b| b.direction == 1}.sum {|b| b.direction}
   end
   def contextify voter
+    @ballot = voter.ballots.find {|b| b.vote == self}
   	@upvoted = voter.ballots.any? {|b| b.vote == self and b.direction == 1}
   	@downvoted = voter.ballots.any? {|b| b.vote == self and b.direction == -1}
   end
@@ -18,6 +19,7 @@ class Vote < ActiveRecord::Base
     h[:upvoted]   = @upvoted
     h[:downvoted] = @downvoted
     h[:voter] = options[:voter]
+    h[:ballot] = @ballot.as_json if @ballot
     h
   end
 end
